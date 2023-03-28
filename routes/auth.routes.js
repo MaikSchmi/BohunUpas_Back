@@ -103,30 +103,21 @@ router.post("/update-token", async (req, res, next) => {
         });
         if (getUser) {
             const payload = {
-                _id: getUser._id, 
-                email: getUser.email, 
-                username: getUser.username, 
-                status: getUser.status, 
-                tournaments: getUser.tournaments, 
-                interest: getUser.interest, 
-                slogan: getUser.slogan,
-                profileImage: getUser.profileImage,
-                profileBackgroundImage: getUser.profileBackgroundImage,
-                profileBackgroundColor: getUser.profileBackgroundColor,
-                profileTextColor: getUser.profileTextColor,
-                commentCount: getUser.commentCount,
-                messages: getUser.messages,
-                friendsList: getUser.friendsList
-                }
+                _id: getUser[0]._id, 
+                email: getUser[0].email, 
+                username: getUser[0].username, 
+                messages: getUser[0].messages,
+                friendsList: getUser[0].friendsList
+            }
 
-                const token = jwt.sign(
-                    payload,
-                    process.env.TOKEN_SECRET,
-                    { 
-                        algorithm: "HS256",
-                        expiresIn: "8h"
-                    }) 
-                res.status(200).json({token})
+            const token = jwt.sign(
+                payload,
+                process.env.TOKEN_SECRET,
+                { 
+                    algorithm: "HS256",
+                    expiresIn: "8h"
+                }) 
+            res.status(200).json({token})
         } else {
             res.status(403).json({message: "User not found."})
         }
