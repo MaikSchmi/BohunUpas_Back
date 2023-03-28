@@ -1,22 +1,44 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    usernameLC: {
+      type: String,
+      unique: true,
+    },
     email: {
       type: String,
-      required: [true, 'Email is required.'],
-      unique: true,
-      lowercase: true,
-      trim: true
+      required: true,
+      unique: true
     },
-    password: {
+    passwordHash: {
       type: String,
-      required: [true, 'Password is required.']
+      required: true
+    },
+    souls: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    achievements: {
+      type: Schema.Types.ObjectId, 
+      ref: "Achievement",
+    },
+    friends: {
+      type: [Schema.Types.ObjectId], 
+      ref: "User"
+    },
+    messages: {
+      type: [Schema.Types.ObjectId], 
+      ref: "Message"
     }
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`    
     timestamps: true
   }
 );
